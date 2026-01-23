@@ -1,0 +1,26 @@
+{
+  "name": "solus-lang",
+  "displayName": "solus",
+  "description": "Syntax highlighting for the solus language",
+  "version": "0.0.1",
+  "icon": "solus.png",
+  "engines": {
+    "vscode": "^1.108.1"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "solus",
+      "aliases": ["solus", "solus"],
+      "extensions": [".sol", ".sol.cfg"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "solus",
+      "scopeName": "source.sol",
+      "path": "./syntaxes/solus.tmLanguage.json"
+    }]
+  }
+}

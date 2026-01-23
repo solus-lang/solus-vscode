@@ -1,0 +1,74 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "solus",
+	"patterns": [
+		{"include": "#strings"},
+		{"include": "#comments"},
+		{"include": "#keywords"},
+		{"include": "#objects"},
+		{"include": "#calls"},
+		{"include": "#numbers"},
+		{"include": "#identifiers"}
+	],
+	"repository": {
+		"comments": {
+			"patterns": [
+				{
+					"name": "comment.line.double-slash.sol",
+					"match": "//.*$"
+				}
+			]
+		},
+		"keywords": {
+			"patterns": [{
+				"name": "keyword.control.sol",
+				"match": "\\b(if|else|while|and|or|do|let|asm|return|self)\\b"
+			}]
+		},
+		"strings": {
+			"patterns": [{
+				"name": "string.quoted.double.sol",
+				"begin": "\"",
+				"end": "\"",
+				"applyEndPatternLast": 1,
+				"patterns": [
+					{
+						"name": "constant.character.escape.sol",
+						"match": "\\\\."
+					}
+				]
+			}]
+		},
+		"objects": {
+			"patterns": [{
+				"name": "storage.type.sol",
+				"match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b(?=\\s*\\.)"
+			}]
+		},
+		"calls": {
+			"patterns": [{
+				"name": "entity.name.function.sol",
+				"match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b(?=\\s*\\()"
+			}]
+		},
+		"numbers": {
+			"patterns": [
+				{
+					"name": "constant.numeric.sol",
+					"match": "\\b\\d+\\.\\d+\\b"
+				},
+				{
+					"name": "constant.numeric.sol",
+					"match": "\\b\\d+\\b"
+				}
+			]
+		},
+		"identifiers": {
+			"patterns": [{
+				"name": "variable.other.sol",
+				"match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b"
+			}]
+		}
+	},
+	"scopeName": "source.sol"
+}
