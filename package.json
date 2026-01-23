@@ -1,11 +1,13 @@
 {
   "name": "solus-lang",
+  "publisher": "septumfunk",
   "displayName": "solus",
   "description": "Syntax highlighting for the solus language",
-  "version": "0.0.1",
+  "repository": {"url": "https://github.com/septumfunk/solus-lang", "type": "github"},
+  "version": "0.4.0",
   "icon": "solus.png",
   "engines": {
-    "vscode": "^1.108.1"
+    "vscode": "^1.106.2"
   },
   "categories": [
     "Programming Languages"
