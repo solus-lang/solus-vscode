@@ -4,7 +4,7 @@
   "displayName": "solus",
   "description": "Syntax highlighting for the solus language",
   "repository": {"url": "https://github.com/solus-lang/solus-vscode", "type": "github"},
-  "version": "0.4.0",
+  "version": "0.6.0",
   "icon": "icon.png",
   "engines": {
     "vscode": "^1.106.2"
