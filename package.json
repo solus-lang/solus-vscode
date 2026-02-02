@@ -3,9 +3,9 @@
   "publisher": "septumfunk",
   "displayName": "solus",
   "description": "Syntax highlighting for the solus language",
-  "repository": {"url": "https://github.com/septumfunk/solus-lang", "type": "github"},
+  "repository": {"url": "https://github.com/solus-lang/solus-vscode", "type": "github"},
   "version": "0.4.0",
-  "icon": "solus.png",
+  "icon": "icon.png",
   "engines": {
     "vscode": "^1.106.2"
   },
@@ -15,9 +15,13 @@
   "contributes": {
     "languages": [{
       "id": "solus",
-      "aliases": ["solus", "solus"],
-      "extensions": [".sol", ".sol.cfg"],
-      "configuration": "./language-configuration.json"
+      "aliases": ["solus", "Solus"],
+      "extensions": [".solu", ".solus"],
+      "configuration": "./language-configuration.json",
+      "icon": {
+        "light": "./solu-icon.png",
+        "dark": "./solu-icon.png"
+      }
     }],
     "grammars": [{
       "language": "solus",
