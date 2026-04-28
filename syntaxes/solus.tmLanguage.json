@@ -1,74 +1,210 @@
 {
-	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
-	"name": "solus",
-	"patterns": [
-		{"include": "#strings"},
-		{"include": "#comments"},
-		{"include": "#keywords"},
-		{"include": "#objects"},
-		{"include": "#calls"},
-		{"include": "#numbers"},
-		{"include": "#identifiers"}
-	],
-	"repository": {
-		"comments": {
-			"patterns": [
-				{
-					"name": "comment.line.double-slash.sol",
-					"match": "//.*$"
-				}
-			]
-		},
-		"keywords": {
-			"patterns": [{
-				"name": "keyword.control.sol",
-				"match": "\\b(if|else|while|and|or|do|let|asm|return|self)\\b"
-			}]
-		},
-		"strings": {
-			"patterns": [{
-				"name": "string.quoted.double.sol",
-				"begin": "\"",
-				"end": "\"",
-				"applyEndPatternLast": 1,
-				"patterns": [
-					{
-						"name": "constant.character.escape.sol",
-						"match": "\\\\."
-					}
-				]
-			}]
-		},
-		"objects": {
-			"patterns": [{
-				"name": "storage.type.sol",
-				"match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b(?=\\s*\\.)"
-			}]
-		},
-		"calls": {
-			"patterns": [{
-				"name": "entity.name.function.sol",
-				"match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b(?=\\s*\\()"
-			}]
-		},
-		"numbers": {
-			"patterns": [
-				{
-					"name": "constant.numeric.sol",
-					"match": "\\b\\d+\\.\\d+\\b"
-				},
-				{
-					"name": "constant.numeric.sol",
-					"match": "\\b\\d+\\b"
-				}
-			]
-		},
-		"identifiers": {
-			"patterns": [{
-				"name": "variable.other.sol",
-				"match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b"
-			}]
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "solus",
+  "patterns": [
+    { "include": "#fstrings" },
+    { "include": "#strings" },
+    { "include": "#comments" },
+    { "include": "#spread_identifier" },
+    { "include": "#keywords" },
+    { "include": "#instructions" },
+    { "include": "#objects" },
+    { "include": "#calls" },
+    { "include": "#numbers" },
+    { "include": "#constants" },
+    { "include": "#identifiers" },
+    { "include": "#operators" },
+    { "include": "#punctuation" }
+  ],
+  "repository": {
+    "fstrings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.fstring.sol",
+          "begin": "\\$\"",
+          "beginCaptures": {
+            "0": { "name": "punctuation.definition.string.begin.sol" }
+          },
+          "end": "\"",
+          "endCaptures": {
+            "0": { "name": "punctuation.definition.string.end.sol" }
+          },
+          "patterns": [
+            { "include": "#fstring_escapes" },
+            { "include": "#fstring_interpolation" }
+          ]
+        },
+        {
+          "name": "string.quoted.single.fstring.sol",
+          "begin": "\\$'",
+          "beginCaptures": {
+            "0": { "name": "punctuation.definition.string.begin.sol" }
+          },
+          "end": "'",
+          "endCaptures": {
+            "0": { "name": "punctuation.definition.string.end.sol" }
+          },
+          "patterns": [
+            { "include": "#fstring_escapes" },
+            { "include": "#fstring_interpolation" }
+          ]
+        }
+      ]
+    },
+
+    "fstring_escapes": {
+      "patterns": [
+        {
+          "name": "constant.character.escape.sol",
+          "match": "\\\\."
+        },
+        {
+          "name": "constant.character.escape.brace.sol",
+          "match": "\\{\\{|\\}\\}"
+        }
+      ]
+    },
+
+    "fstring_interpolation": {
+      "patterns": [
+        {
+          "name": "meta.embedded.block.sol",
+          "contentName": "source.solus.embedded",
+          "begin": "\\{",
+          "beginCaptures": {
+            "0": { "name": "keyword.operator.sol" }
+          },
+          "end": "\\}",
+          "endCaptures": {
+            "0": { "name": "keyword.operator.sol" }
+          },
+          "patterns": [
+			{ "include": "#fstrings" },
+			{ "include": "#strings" },
+			{ "include": "#comments" },
+			{ "include": "#keywords" },
+			{ "include": "#instructions" },
+			{ "include": "#objects" },
+			{ "include": "#calls" },
+			{ "include": "#numbers" },
+			{ "include": "#constants" },
+			{ "include": "#identifiers" },
+			{ "include": "#operators" },
+			{ "include": "#punctuation" }
+          ]
+        }
+      ]
+    },
+
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.sol",
+          "begin": "\"",
+          "end": "\"",
+          "applyEndPatternLast": 1,
+          "patterns": [
+            { "name": "constant.character.escape.sol", "match": "\\\\." }
+          ]
+        },
+        {
+          "name": "string.quoted.single.sol",
+          "begin": "'",
+          "end": "'",
+          "applyEndPatternLast": 1,
+          "patterns": [
+            { "name": "constant.character.escape.sol", "match": "\\\\." }
+          ]
+        }
+      ]
+    },
+
+    "comments": {
+      "patterns": [
+        { "name": "comment.block.sol", "begin": "##", "end": "##" },
+        { "name": "comment.line.sol", "match": "#.*$" }
+      ]
+    },
+
+    "spread_identifier": {
+      "patterns": [
+      ]
+    },
+
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.sol",
+          "match": "\\b(if|else|for|while|break|continue|return|and|or|do|val|var|asm|\\|\\||&&|self|include|global)\\b"
+        },
+        {
+          "name": "keyword.operator.spread.sol",
+          "match": "\\.\\.\\.[A-Za-z_][A-Za-z0-9_]*"
+        }
+      ]
+    },
+
+    "instructions": {
+      "patterns": [
+        {
+          "name": "keyword.control.sol",
+          "match": "\\b(LOAD|MOVE|RET|JMP|CALL|ADD|SUB|MUL|DIV|NEG|EQ|LT|LE|SETU|GETU|REFU|NEW|SET|GET|PUSH|SUPO|GUPO)\\b"
+        }
+      ]
+    },
+
+    "objects": {
+      "patterns": [
+        {
+          "name": "storage.type.sol",
+          "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b(?=\\s*(\\.|\\[))"
+        }
+      ]
+    },
+
+    "calls": {
+      "patterns": [
+        {
+          "name": "entity.name.function.sol",
+          "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b(?=\\s*\\()"
+        }
+      ]
+    },
+
+    "numbers": {
+      "patterns": [{
+        "name": "constant.numeric.sol",
+        "match": "\\b\\d+\\.\\d+f?\\b|\\B\\.\\d+f?\\b|\\b\\d+f\\b|\\b\\d+\\b"
+      }]
+    },
+
+    "constants": {
+      "patterns": [
+        { "name": "constant.language.sol", "match": "\\b(true|false|nil|nan|inf)\\b" }
+      ]
+    },
+
+    "identifiers": {
+      "patterns": [
+        { "name": "variable.other.sol", "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b" }
+      ]
+    },
+	"operators": {
+	  "patterns": [
+		{
+		  "name": "keyword.operator.sol",
+		  "match": "(\\+\\+|--|\\+=|-=|\\*=|/=|==|!=|<=|>=|&&|\\|\\||[+\\-*/=<>!])"
 		}
+	  ]
 	},
-	"scopeName": "source.sol"
+	"punctuation": {
+	  "patterns": [
+		{
+		  "name": "punctuation.separator.sol",
+		  "match": "[(),.;:\\[\\]{}]"
+		}
+	  ]
+	}
+  },
+  "scopeName": "source.sol"
 }
